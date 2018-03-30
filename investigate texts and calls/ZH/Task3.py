@@ -39,3 +39,32 @@ with open('calls.csv', 'r') as f:
 to other fixed lines in Bangalore."
 注意：百分比应包含2位小数。
 """
+
+
+call_terminate_code_list = []
+
+for phone_info in calls:
+    originate_phone = phone_info[0]
+    terminate_phone = phone_info[1]
+    if "(080)" in originate_phone:
+        #call_terminate_phone_list.append(terminate_phone)
+        #固定电话以"(0"开头
+        if terminate_phone.startswith("(0"):
+            #print(terminate_phone)
+            tmp = terminate_phone[1:terminate_phone.index(")")]
+            call_terminate_code_list.append(tmp)
+            pass
+        
+        if (" " in terminate_phone) and (terminate_phone.startswith("7") or terminate_phone.startswith("8") or terminate_phone.startswith("9")):
+            #print(terminate_phone)
+            tmp = terminate_phone[0:terminate_phone.index(" ")]
+            #print(tmp)
+            call_terminate_code_list.append(tmp)
+            pass
+        if terminate_phone.startswith("140"):
+            pass
+            #print(terminate_phone)
+    
+
+call_
+

@@ -26,3 +26,44 @@ with open('calls.csv', 'r') as f:
 电话号码不能重复，每行打印一条，按字典顺序排序后输出。
 """
 
+
+
+# 获取拨出电话电话列表
+call_originate_phone_list = set()
+
+# 获得收到来电电话列表
+call_terminate_phone_list = set()
+
+for call_info in calls:
+    originate_phone = call_info[0]
+    terminate_phone = call_info[1]
+
+    call_originate_phone_list.add(originate_phone)
+    call_terminate_phone_list.add(terminate_phone)
+
+
+
+# 获得发送短信电话列表
+text_send_phone_list = set()
+
+# 获得接收短信电话列表
+text_recv_phone_list = set()
+
+for text_info in texts:
+    send_phone = text_info[0]
+    recv_phone = text_info[1]
+
+    text_send_phone_list.add(send_phone)
+    text_recv_phone_list.add(recv_phone)
+
+
+
+# 从拨出电话的列表中电话号码，排除发送短信的电话号码，接收短信的电话号码，收到来电的电话号码
+remain_phone_list = call_originate_phone_list - call_terminate_phone_list - text_send_phone_list - text_recv_phone_list
+
+# 排序
+sorted_phone_list = sorted(remain_phone_list, key = lambda x:x[1])
+
+print("These numbers could be telemarketers: ")
+for phone_num in sorted_phone_list:
+    print(phone_num)
