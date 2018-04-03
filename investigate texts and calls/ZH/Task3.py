@@ -40,13 +40,21 @@ to other fixed lines in Bangalore."
 注意：百分比应包含2位小数。
 """
 
-
+"""被叫电话 列表"""
 call_terminate_code_list = []
+
+"""主叫电话是080的数量"""
+originate_phone_080_count = 0
+"""被叫电话是080的数量"""
+terminate_phone_080_count = 0
+
 
 for phone_info in calls:
     originate_phone = phone_info[0]
     terminate_phone = phone_info[1]
     if "(080)" in originate_phone:
+        # 主叫电话数量增加
+        originate_phone_080_count += 1
         #call_terminate_phone_list.append(terminate_phone)
         #固定电话以"(0"开头
         if terminate_phone.startswith("(0"):
@@ -55,16 +63,29 @@ for phone_info in calls:
             call_terminate_code_list.append(tmp)
             pass
         
-        if (" " in terminate_phone) and (terminate_phone.startswith("7") or terminate_phone.startswith("8") or terminate_phone.startswith("9")):
+        if (" " in terminate_phone) and (terminate_phone.startswith("7") \
+            or terminate_phone.startswith("8") \
+            or terminate_phone.startswith("9")):
             #print(terminate_phone)
-            tmp = terminate_phone[0:terminate_phone.index(" ")]
+            tmp = terminate_phone[0:5]
             #print(tmp)
             call_terminate_code_list.append(tmp)
             pass
         if terminate_phone.startswith("140"):
             pass
             #print(terminate_phone)
+        if "(080)" in terminate_phone:
+            terminate_phone_080_count += 1
     
+# 被叫电话列表去重
+unique_code_list = set(call_terminate_code_list)
+# 去重后的电话列表排序
+sorted_unique_code_list = sorted(unique_code_list)
 
-call_
+print("The numbers called by people in Bangalore have codes:")
+for itm in sorted_unique_code_list:
+    print(itm)
 
+percent = terminate_phone_080_count*100/originate_phone_080_count
+print("%.2f percent of calls from fixed lines in Bangalore are calls \
+to other fixed lines in Bangalore." % percent)

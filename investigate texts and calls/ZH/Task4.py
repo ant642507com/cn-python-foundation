@@ -62,7 +62,7 @@ for text_info in texts:
 remain_phone_list = call_originate_phone_list - call_terminate_phone_list - text_send_phone_list - text_recv_phone_list
 
 # 排序
-sorted_phone_list = sorted(remain_phone_list, key = lambda x:x[1])
+sorted_phone_list = sorted(remain_phone_list)
 
 print("These numbers could be telemarketers: ")
 for phone_num in sorted_phone_list:
