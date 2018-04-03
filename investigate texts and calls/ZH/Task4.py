@@ -26,8 +26,23 @@ with open('calls.csv', 'r') as f:
 电话号码不能重复，每行打印一条，按字典顺序排序后输出。
 """
 
+'''所有的主叫电话列表'''
+possible_phone_list = [x[0] for x in calls]
+''' 发短信号码列表 + 接收短信号码列表 + 被叫电话列表
+    发短信号码列表 + 接收短信号码列表： sum([[x[0], x[1]] for x in texts], [])
+    被叫电话列表：[x[1] for x in calls]
+'''
+impossible_phone_list = sum([[x[0], x[1]] for x in texts], []) + [x[1] for x in calls]
+''' 现将可能的电话列表去重，再除不可能 的电话列表，最后排序'''
+telemarketers = sorted(set(possible_phone_list) - set(impossible_phone_list))
+
+print("These numbers could be telemarketers: ")
+for x in telemarketers:
+    print(x)
 
 
+
+""" 以下是之前，我自己的实现
 # 获取拨出电话电话列表
 call_originate_phone_list = set()
 
@@ -67,6 +82,7 @@ sorted_phone_list = sorted(remain_phone_list)
 print("These numbers could be telemarketers: ")
 for phone_num in sorted_phone_list:
     print(phone_num)
+"""
     
     
 """ 以下是导师 给的解答算法(20180403)：确实是很棒的写法

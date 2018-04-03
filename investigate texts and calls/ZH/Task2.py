@@ -23,6 +23,30 @@ September 2016.".
 如果键不存在于字典内，将此键加入字典，并将它的值设为给定值。
 """
 
+
+phone_dict = {}
+
+def add_value(phone_dict, key, value):
+    if key in phone_dict:
+        phone_dict[key] += value
+    else:
+        phone_dict[key] = value
+
+for call_info in calls:
+    '''主叫电话通话时长累加'''
+    add_value(phone_dict, call_info[0], int(call_info[3]))
+    '''被叫电话通话时长累加'''
+    add_value(phone_dict, call_info[1], int(call_info[3]))
+
+phone_of_longest_call = max(phone_dict, key=phone_dict.get)
+
+print("{} spent the longest time, {} seconds, on the phone during September 2016.".format(
+    phone_of_longest_call, phone_dict[phone_of_longest_call]
+))
+
+
+
+"""以下是我之前提交的实现
 tel_totaltime_map = {}
 
 #组织map数据结构 key 为手机号，value为手机号对应的通话时长
@@ -57,7 +81,7 @@ print("{} spent the longest time, {} seconds, on the phone during September 2016
     max_totaltime_phone,
     max_totaltime
 ))
-
+"""
 
 
 """ 以下是导师给的解决方案的代码（我写下了自己的理解）：
