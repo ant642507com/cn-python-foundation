@@ -60,7 +60,7 @@ print("{} spent the longest time, {} seconds, on the phone during September 2016
 
 
 
-"""
+""" 以下是导师给的解决方案的代码（我写下了自己的理解）：
 仔细观察这两个 if ... else 语句会发现代码大同小异，这个时候就可以考虑把它们抽象成一个函数，实现代码的复用：
 
 def add_value(phone_dict, key, value):
@@ -69,11 +69,13 @@ def add_value(phone_dict, key, value):
     else:
         phone_dict[key] = value
 
+# 定义电话字典，key是电话号码，value值是累积的通话时长
 phone_dict = {}
 for x in calls:
     add_value(phone_dict, x[0], int(x[3]))
     add_value(phone_dict, x[1], int(x[3]))
 
+# 字典中 按照value排序取最大值，返回最大值的key
 phone_of_longest_call = max(phone_dict, key=phone_dict.get)
 
 print("{} spent the longest time, {} seconds, on the phone during September 2016.".format(

@@ -69,7 +69,7 @@ for phone_num in sorted_phone_list:
     print(phone_num)
     
     
-"""
+""" 以下是导师 给的解答算法(20180403)：确实是很棒的写法
 这道题的答案是对的。如果你能自学一点 list comprehension，并且选用恰当的数据结构，这道题会变得非常简单：
 
 possible_phone_list = [x[0] for x in calls]

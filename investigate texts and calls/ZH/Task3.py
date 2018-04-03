@@ -59,6 +59,7 @@ for phone_info in calls:
         #固定电话以"(0"开头
         if terminate_phone.startswith("(0"):
             #print(terminate_phone)
+            '''截取的区号要包含括号'''
             tmp = terminate_phone[0:terminate_phone.index(")")+1]
             call_terminate_code_list.append(tmp)
             pass
@@ -67,6 +68,7 @@ for phone_info in calls:
             or terminate_phone.startswith("8") \
             or terminate_phone.startswith("9")):
             #print(terminate_phone)
+            ''' 一个移动电话的移动前缀指的是他的前四个数字 '''
             tmp = terminate_phone[0:4]
             #print(tmp)
             call_terminate_code_list.append(tmp)

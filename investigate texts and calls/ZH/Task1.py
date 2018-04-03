@@ -57,12 +57,22 @@ print("There are %s different telephone numbers in the records." % len(sets_phon
 """
 
 """
-以下是导师给的解决方案的代码：
+以下是导师给的解决方案的代码（我写下了自己的理解）：
+"""
+
+"""
+以下代码含义如下，举个栗子：
+a = [[1,2,3],[4,5,6]]
+b = list(zip(*a))
+实际上，b的值 是： [(1, 4), (2, 5), (3, 6)] 
+实现了 将原数据第1列的数据，转为第1元素，以此类推。
 """
 texts_transposed = list(zip(*texts))
 calls_transposed = list(zip(*calls))
 
-'''这里使用了Set的去重功能'''
+'''这里使用了Set的去重功能
+两个set集合 使用 “|” 进行运算，可以去重，得到并集。
+'''
 print("There are {} different telephone numbers in the records.".format(
     len(set(texts_transposed[0]) | set(texts_transposed[1]) |
     set(calls_transposed[0]) | set(calls_transposed[1]))
