@@ -67,3 +67,19 @@ sorted_phone_list = sorted(remain_phone_list)
 print("These numbers could be telemarketers: ")
 for phone_num in sorted_phone_list:
     print(phone_num)
+    
+    
+"""
+这道题的答案是对的。如果你能自学一点 list comprehension，并且选用恰当的数据结构，这道题会变得非常简单：
+
+possible_phone_list = [x[0] for x in calls]
+impossible_phone_list = sum([[x[0], x[1]] for x in texts], []) + [x[1] for x in calls]
+telemarketers = sorted(set(possible_phone_list) - set(impossible_phone_list))
+
+print("These numbers could be telemarketers: ")
+for x in telemarketers:
+    print(x)
+事实上，前面那几道题你都可以试试 list comprehension，
+https://www.digitalocean.com/community/tutorials/understanding-list-comprehensions-in-python-3
+代码会简化很多的。
+"""

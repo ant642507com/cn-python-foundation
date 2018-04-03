@@ -53,4 +53,31 @@ max_totaltime_phone = list(tel_sorted_dict.keys())[0]
 #获取第一个key值对应的value
 max_totaltime = tel_sorted_dict[max_totaltime_phone]
 
-print("%s spent the longest time, %s seconds, on the phone during September 2016." % (max_totaltime_phone, max_totaltime))
+print("{} spent the longest time, {} seconds, on the phone during September 2016.".format(
+    max_totaltime_phone,
+    max_totaltime
+))
+
+
+
+"""
+仔细观察这两个 if ... else 语句会发现代码大同小异，这个时候就可以考虑把它们抽象成一个函数，实现代码的复用：
+
+def add_value(phone_dict, key, value):
+    if key in phone_dict:
+        phone_dict[key] += value
+    else:
+        phone_dict[key] = value
+
+phone_dict = {}
+for x in calls:
+    add_value(phone_dict, x[0], int(x[3]))
+    add_value(phone_dict, x[1], int(x[3]))
+
+phone_of_longest_call = max(phone_dict, key=phone_dict.get)
+
+print("{} spent the longest time, {} seconds, on the phone during September 2016.".format(
+    phone_of_longest_call, phone_dict[phone_of_longest_call]
+))
+
+"""

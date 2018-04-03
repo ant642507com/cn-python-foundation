@@ -19,6 +19,7 @@ with open('calls.csv', 'r') as f:
 "There are <count> different telephone numbers in the records.
 """
 
+""" 以下是我之前提交的答案（20180403_0906）
 # 发送短信号码列表
 send_sms_phone_list = []
 # 接收短信号码列表
@@ -28,7 +29,6 @@ recv_sms_phone_list = []
 call_originate_phone_list = []
 # 被叫电话号码列表
 call_terminate_phone_list = []
-
 
 for text_info in texts:
     send_sms_phone_list.append(text_info[0])
@@ -54,5 +54,19 @@ sets_phones.update(call_originate_phone_list)
 sets_phones.update(call_terminate_phone_list)
 
 print("There are %s different telephone numbers in the records." % len(sets_phones))
+"""
+
+"""
+以下是导师给的解决方案的代码：
+"""
+texts_transposed = list(zip(*texts))
+calls_transposed = list(zip(*calls))
+
+'''这里使用了Set的去重功能'''
+print("There are {} different telephone numbers in the records.".format(
+    len(set(texts_transposed[0]) | set(texts_transposed[1]) |
+    set(calls_transposed[0]) | set(calls_transposed[1]))
+))
+
 
 

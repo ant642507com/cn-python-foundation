@@ -59,7 +59,7 @@ for phone_info in calls:
         #固定电话以"(0"开头
         if terminate_phone.startswith("(0"):
             #print(terminate_phone)
-            tmp = terminate_phone[1:terminate_phone.index(")")]
+            tmp = terminate_phone[0:terminate_phone.index(")")+1]
             call_terminate_code_list.append(tmp)
             pass
         
@@ -67,7 +67,7 @@ for phone_info in calls:
             or terminate_phone.startswith("8") \
             or terminate_phone.startswith("9")):
             #print(terminate_phone)
-            tmp = terminate_phone[0:5]
+            tmp = terminate_phone[0:4]
             #print(tmp)
             call_terminate_code_list.append(tmp)
             pass
@@ -86,6 +86,6 @@ print("The numbers called by people in Bangalore have codes:")
 for itm in sorted_unique_code_list:
     print(itm)
 
-percent = terminate_phone_080_count*100/originate_phone_080_count
-print("%.2f percent of calls from fixed lines in Bangalore are calls \
-to other fixed lines in Bangalore." % percent)
+percent = round(terminate_phone_080_count*100/originate_phone_080_count, 2)
+print("{} percent of calls from fixed lines in Bangalore are calls \
+to other fixed lines in Bangalore.".format(percent))
