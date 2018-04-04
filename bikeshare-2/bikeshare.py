@@ -2,6 +2,8 @@ import time
 import pandas as pd
 import numpy as np
 
+import bikeshare_python as bp
+
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
@@ -15,15 +17,15 @@ def get_filters():
         (str) month - name of the month to filter by, or "all" to apply no month filter
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
-    print('Hello! Let\'s explore some US bikeshare data!')
+    #print('Hello! Let\'s explore some US bikeshare data!')
     # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-
+    city = bp.get_city()
 
     # TO DO: get user input for month (all, january, february, ... , june)
-
+    month = bp.get_month()
 
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
-
+    day = bp.get_day()
 
     print('-'*40)
     return city, month, day
@@ -134,4 +136,5 @@ def main():
 
 
 if __name__ == "__main__":
-	main()
+    #main()
+    get_filters()

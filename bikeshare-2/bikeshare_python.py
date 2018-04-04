@@ -15,10 +15,29 @@ def get_city():
     Returns:
         (str) Filename for a city's bikeshare data.
     '''
-    city = input('\nHello! Let\'s explore some US bikeshare data!\n'
-                 'Would you like to see data for Chicago, New York, or Washington?\n')
+    
     # TODO: handle raw input and complete function
-
+    ret_city = None
+    while True:
+        city = input('\nHello! Let\'s explore some US bikeshare data!\n'
+                 'Would you like to see data for Chicago, New York, or Washington?\n')
+        if city in ["Chicago", "New York", "Washington"]:
+            if city=="Chicago":
+                ret_city = chicago
+            elif city=="New York":
+                ret_city = new_york_city
+            elif city=="Washington":
+                ret_city = washington
+            else:
+                ret_city = None
+            
+            if ret_city==None:
+                continue
+            else:
+                break
+        else:
+            print("\nError input! Try Again?")
+    return ret_city
 
 def get_time_period():
     '''Asks the user for a time period and returns the specified filter.
@@ -28,10 +47,18 @@ def get_time_period():
     Returns:
         TODO: fill out return type and description (see get_city for an example)
     '''
-    time_period = input('\nWould you like to filter the data by month, day, or not at'
-                        ' all? Type "none" for no time filter.\n')
+    
     # TODO: handle raw input and complete function
-
+    ret_val = None
+    while True:
+        time_period = input('\nWould you like to filter the data by month, day, or not at'
+                        ' all? Type "none" for no time filter.\n')
+        if time_period in ["month", "day", "none"]:
+            ret_val = time_period
+            break
+        else:
+            print("\nError input! Try Again?")
+    return ret_val
 
 def get_month():
     '''Asks the user for a month and returns the specified month.
@@ -41,9 +68,17 @@ def get_month():
     Returns:
         TODO: fill out return type and description (see get_city for an example)
     '''
-    month = input('\nWhich month? January, February, March, April, May, or June?\n')
+   
     # TODO: handle raw input and complete function
-
+    ret_val = None
+    while True:
+        month = input('\nWhich month? January, February, March, April, May, or June?\n')
+        if month in ["all", "January", "February", "March", "April", "May", "June"]:
+            ret_val = month
+            break
+        else:
+            print("\nError input! Try Again?")
+    return ret_val
 
 def get_day(month):
     '''Asks the user for a day and returns the specified day.
@@ -53,9 +88,28 @@ def get_day(month):
     Returns:
         TODO: fill out return type and description (see get_city for an example)
     '''
-    day = input('\nWhich day? Please type your response as an integer.\n')
+    
+    max_day = 0
+    
+    if month in ["January", "February", ""]:
+        max_day = 31
+    elif month in [""]:
+        
+    
     # TODO: handle raw input and complete function
-
+    ret_val = None
+    while True:
+        try:
+            day = int(input('\nWhich day? Please type your response as an integer.\n'))
+            if day in [x for x in range(1,31)]:
+                ret_val = day
+                break
+            else:
+                print("\nError input! Try Again?")
+        except:
+            print("\nError input! Try Again?")
+                
+    return ret_val
 
 def popular_month(city_file, time_period):
     '''TODO: fill out docstring with description, arguments, and return values.
@@ -233,4 +287,9 @@ def statistics():
 
 
 if __name__ == "__main__":
-	statistics()
+    #statistics()
+    """
+    cityname = get_city()
+    print(cityname)
+    time_period = get_time_period()
+    print(time_period)"""
