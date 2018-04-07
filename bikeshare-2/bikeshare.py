@@ -10,13 +10,18 @@ CITY_DATA = { 'Chicago': 'chicago.csv',
  cached CSV data in memory!
  In order to void frequently read data from disk!
 """
-
 CACHED_CITY_DATA = {}
 
+"""
+Define Global MONTHs
+"""
 MONTH_LIST = ["January", "February", "March", "April", 
               "May", "June", "July", "August",
               "September", "Octuber", "November", "December"]
 
+"""
+Define Global WEEKDAYs
+"""
 WEEK_LIST = ["Monday", "Tuesday", "Wednesday", "Thursday",
              "Friday", "Saturday", "Sunday"]
 
@@ -67,7 +72,7 @@ def get_month():
    
     ret_val = None
     while True:
-        month = input('\nWhich month? January, February, March, April, May, or June?\n')
+        month = input('\nWhich month? January, February, March, April, May, or June? (or "all")\n')
         if month in ["all"] + MONTH_LIST:
             ret_val = month
             break
@@ -84,7 +89,7 @@ def get_day():
     '''
     ret_val = None
     while True:
-        day = input('\nWhich day? Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday?\n')
+        day = input('\nWhich day? Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, or "all"?\n')
         if day in ["all"] + WEEK_LIST:
             ret_val = day
             break
@@ -125,8 +130,9 @@ def get_filters():
 
 def dealwith_month(datetimestr):
     #	1 到 12
-    month_int = time.strptime(datetimestr, '%Y-%m-%d %H:%M:%S').tm_mon
-    
+    #month_int = time.strptime(datetimestr, '%Y-%m-%d %H:%M:%S').tm_mon
+    # 这里使用字符串截取的方式 更有效率
+    month_int = int(datetimestr[5:7])
     return MONTH_LIST[month_int-1]
 
 def dealwith_weekday(datetimestr):
@@ -146,7 +152,9 @@ def dealwith_df_weekday(df):
     return df;
 
 def dealwith_hour(datetimestr):
-    hour_int = time.strptime(datetimestr, '%Y-%m-%d %H:%M:%S').tm_hour
+    #hour_int = time.strptime(datetimestr, '%Y-%m-%d %H:%M:%S').tm_hour
+    # 这里使用字符串截取的方式 更有效率
+    hour_int = int(datetimestr[11:13])
     return hour_int
 
 def dealwith_df_hour(df):
@@ -160,6 +168,9 @@ def load_data_from_cache_or_csv(city):
     Use Dict cached pandas.DataFrame object.
     
     """
+    print('\nStart loading data...\n')
+    start_time = time.time()
+    
     if city in CACHED_CITY_DATA.keys():
         ret_val = CACHED_CITY_DATA[city]
         print("load {} data from cache!".format(city))
@@ -175,6 +186,8 @@ def load_data_from_cache_or_csv(city):
         
         CACHED_CITY_DATA[city] = ret_val
         print("load {} data from file! Cached in Memory!".format(city))
+    
+    print("\nThis took %s seconds." % (time.time() - start_time))
     return ret_val
 
 def load_data(city, month, day):
@@ -197,26 +210,30 @@ def load_data(city, month, day):
     if day in WEEK_LIST:
         df = df[df["Start_Weekday"]==day]
     
+    print("There is {} line of data to calculate.".format(df.size))
+    
     return df
 
 
 def time_stats(df):
     """Displays statistics on the most frequent times of travel."""
-
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
-
-    # TO DO: display the most common month    
-    most_common_month = df.groupby("Start_Month")["Start_Month"].count().idxmax()
-    print("The most common month is {}".format(most_common_month))
     
-    # TO DO: display the most common day of week
-    most_common_day = df.groupby("Start_Weekday")["Start_Weekday"].count().idxmax()
-    print("The most common day of week is {}".format(most_common_day))
-    
-    # TO DO: display the most common start hour
-    most_common_hour = df.groupby("Start_Hour")["Start_Hour"].count().idxmax()
-    print("The most common hour is {}".format(most_common_hour))
+    if df.size>0:
+        # display the most common month    
+        most_common_month = df.groupby("Start_Month")["Start_Month"].count().idxmax()
+        print("The most common month is {}".format(most_common_month))
+        
+        # display the most common day of week
+        most_common_day = df.groupby("Start_Weekday")["Start_Weekday"].count().idxmax()
+        print("The most common day of week is {}".format(most_common_day))
+        
+        # display the most common start hour
+        most_common_hour = df.groupby("Start_Hour")["Start_Hour"].count().idxmax()
+        print("The most common hour is {}".format(most_common_hour))
+    else:
+        print("Cannot share data abount The most commons about time!")
     
 
     print("\nThis took %s seconds." % (time.time() - start_time))
@@ -225,40 +242,43 @@ def time_stats(df):
 
 def station_stats(df):
     """Displays statistics on the most popular stations and trip."""
-
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
 
-    # TO DO: display most commonly used start station
-    most_common_start_station = df.groupby("Start Station")["Start Station"].count().idxmax()
-    print("The most commonly used start station is: {}".format(most_common_start_station))
-    # TO DO: display most commonly used end station
-    most_common_end_station = df.groupby("End Station")["End Station"].count().idxmax()
-    print("The most commonly used end station is: {}".format(most_common_end_station))
+    if df.size>0:
+        # display the most commonly used start station
+        most_common_start_station = df.groupby("Start Station")["Start Station"].count().idxmax()
+        print("The most commonly used start station is: {}".format(most_common_start_station))
+        # display the most commonly used end station
+        most_common_end_station = df.groupby("End Station")["End Station"].count().idxmax()
+        print("The most commonly used end station is: {}".format(most_common_end_station))
+        
+        
+        # display the most frequent combination of start station and end station trip
+        most_common_pair_station = df.groupby(["Start Station", "End Station"])["Start Station", "End Station"].count().idxmax()
+        print("The most frequent combination of start station and end station is {}".format(most_common_pair_station["Start Station"]))
+    else:
+        print("Cannot share data about The most commonly station!")
     
-    
-    # TO DO: display most frequent combination of start station and end station trip
-    most_common_pair_station = df.groupby(["Start Station", "End Station"])["Start Station", "End Station"].count().idxmax()
-    print("The most frequent combination of start station and end station is {}".format(most_common_pair_station["Start Station"]))
-
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
 
 def trip_duration_stats(df):
     """Displays statistics on the total and average trip duration."""
-
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
-
-    # TO DO: display total travel time
-    total_travel_time = df["Trip Duration"].sum()
-    print("The Total travel time is {} seconds.".format(total_travel_time))
-
-    # TO DO: display mean travel time
-    mean_travel_time = df["Trip Duration"].mean()
-    print("The Mean of travel time is {} seconds.".format(mean_travel_time))
-
+    
+    if df.size>0:
+        # display total travel time
+        total_travel_time = df["Trip Duration"].sum()
+        print("The Total travel time is {} seconds.".format(total_travel_time))
+    
+        # display mean travel time
+        mean_travel_time = df["Trip Duration"].mean()
+        print("The Mean of travel time is {} seconds.".format(mean_travel_time))
+    else:
+        print("Cannot share data abount Trip Duration Stats!")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -266,32 +286,33 @@ def trip_duration_stats(df):
 
 def user_stats(df):
     """Displays statistics on bikeshare users."""
-
     print('\nCalculating User Stats...\n')
     start_time = time.time()
-
-    # TO DO: Display counts of user types
-    print("The counts of user types: ")
-    print(df["User Type"].value_counts())
     
-    if "Gender" in df.columns:
-        # TO DO: Display counts of gender
-        print("The counts of gender: ")
-        print(df["Gender"].value_counts())
-    else:
-        print("Cannot share Gender data!")
-    
-    if "Birth Year" in df.columns:
-        # TO DO: Display earliest, most recent, and most common year of birth
-        print("The most earliest year of birth is {}".format(df["Birth Year"].min()))
+    if df.size>0:
+        # Display counts of user types
+        print("The counts of user types: ")
+        print(df["User Type"].value_counts())
         
-        print("The most recent year of birth is {}".format(df["Birth Year"].max()))
+        if "Gender" in df.columns:
+            # Display counts of gender
+            print("The counts of gender: ")
+            print(df["Gender"].value_counts())
+        else:
+            print("Cannot share Gender data!")
         
-        most_common_year = df.groupby("Birth Year")["Birth Year"].count().idxmax()
-        print("The most common year of birth is {}".format(most_common_year))
+        if "Birth Year" in df.columns:
+            # Display the earliest year of birth
+            print("The most earliest year of birth is {}".format(df["Birth Year"].min()))
+            # Display the most recent year of birth
+            print("The most recent year of birth is {}".format(df["Birth Year"].max()))
+            # Display thie most common year of birth
+            most_common_year = df.groupby("Birth Year")["Birth Year"].count().idxmax()
+            print("The most common year of birth is {}".format(most_common_year))
+        else:
+            print("Cannot share Birth Year data!")
     else:
-        print("Cannot share Birth Year data!")
-    
+        print("Cannot share data about User Type, Gender and Birth Year!")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
