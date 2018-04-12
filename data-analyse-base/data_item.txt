@@ -1,45 +1,45 @@
 	0. Year-Month
 	1. State/Territory
 	2. Permit ------------------------> 许可证
-	3. Permit Recheck 允许重新检查
-	4. Handgun  手枪
+	3. Permit Recheck             允许重新检查
+	4. Handgun   手枪
 	5. Long Gun  长枪
 	6. *Other    其他类型枪支
 	7. **Multiple  多种枪支
-	8. Admin     
+	8. Admin     行政管理
 
 
-Pre-Pawn:
+Pre-Pawn:                 典当，抵押
 	9. Handgun
 	10. Long Gun
 	11. *Other
 
-Redemption:
+Redemption:               赎回
 	12. Handgun
 	13. Long Gun
 	14. *Other
 
-Returned/Disposition:
+Returned/Disposition:     返还
 	15. Handgun
 	16. Long Gun
 	17. *Other
 
-Rentals:
+Rentals:                  租赁
 	18. Handgun
 	19. Long Gun
 
-Private Sale:
+Private Sale:             私卖
 	20. Handgun
 	21. Long Gun
 	22. *Other
 
-Return to Seller - Private Sale:
+Return to Seller - Private Sale:   卖给卖家
 	23. Handgun
 	24. Long Gun
 	25. *Other
 
 
-	26. Totals
+	26. Totals             总量
 
 
 
