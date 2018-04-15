@@ -6,6 +6,7 @@ Created on Sat Apr 14 14:50:25 2018
 """
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 movie_df = pd.read_csv('tmdb-movies.csv')
 
@@ -38,11 +39,14 @@ dealed_df = melted.copy()
 
 """
 根据电影种类，统计出最受欢迎的电影类型
+
+mean_dealed_df = dealed_df.groupby('genres_uniq')['popularity'].mean().sort_values(ascending=False)
+
+mean_dealed_df.plot(kind='bar', figsize=(10, 10))
+plt.title('Genres VS Average Popularity')
+plt.ylabel('popularity')
+plt.xlabel('genres')
 """
-mean_dealed_df = dealed_df.groupby('genres_uniq')['popularity'].mean()
-
-mean_dealed_df.plot(kind='bar')
-
 
 """
 在最受欢迎的种类的电影中，都是由哪些年出的作品，数量占比是怎样的
@@ -53,7 +57,10 @@ popular_df = melted.query('genres_uniq==\'Adventure\'')
 dealed_cast_df = melted.copy()
 
 count_of_cast = dealed_cast_df.groupby('release_year')['release_year'].count()
-count_of_cast.plot(kind='bar' ,figsize=(15, 15))
 
+count_of_cast.plot(kind='line',figsize=(18, 18))
+
+plt.ylabel('count')
+plt.title('Release Year VS Publish Count With Adventure Movies')
 
 
